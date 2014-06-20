@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import os
 from numpy import linalg as LA
+import Image
 
 def read_images(path):
     images = []
@@ -75,7 +76,7 @@ def find_similar(image, mapped) :
 
 def main():
     #path of training images
-    path = "s1"
+    path = "images"
     
     #read training images
     images = read_images(path)
@@ -101,7 +102,7 @@ def main():
     x = images[0].shape[1]
 
     for i in range(len(mv)):
-        cv2.imwrite("eigenface"+str(i+1)+".jpg", row2image(normalize(mv[i], 0, 255), y, x))
+        cv2.imwrite("eigenfaces\\eigenface"+str(i+1)+".jpg", row2image(normalize(mv[i], 0, 255), y, x))
     
         
     #mapping training images into eigen space
@@ -110,7 +111,7 @@ def main():
     mapped = [im_map(path+"\\"+names[i], mean, mv) for i in range(len(names)-2)]
 
     #test code above with a new image
-    new_image = im_map('9.pgm', mean, mv)
+    new_image = im_map('test.pgm', mean, mv)
     index = find_similar(new_image, mapped)
     print "New Picture Is Similar To "+names[index]
 
